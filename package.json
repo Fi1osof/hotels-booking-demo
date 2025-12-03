@@ -2,6 +2,15 @@
   "name": "hotels--booking",
   "version": "1.0.0",
   "main": "index.js",
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -14,7 +23,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "author": "Nikolai Lanets",
   "license": "ISC",
@@ -46,7 +56,9 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-perf": "^3.3.3",
+    "husky": "^9.1.7",
     "jsdom": "^27.2.0",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "vite": "^7.2.6",
     "vitest": "^4.0.15"
