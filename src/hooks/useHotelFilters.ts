@@ -1,4 +1,4 @@
-import { useReducer, useCallback, useMemo } from 'react'
+import { useReducer, useMemo } from 'react'
 import { Hotel, FilterState, SortConfig } from '@/types/hotel'
 import { PRICE_RANGE } from '@/data/hotels'
 
@@ -99,37 +99,42 @@ const ITEMS_PER_PAGE = 10
 export function useHotelFilters(hotels: Hotel[]) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  // Actions
-  const setSearch = useCallback((search: string) => {
-    dispatch({ type: 'SET_SEARCH', payload: search })
-  }, [])
-
-  const setPriceRange = useCallback((min: number, max: number) => {
-    dispatch({ type: 'SET_PRICE_RANGE', payload: { min, max } })
-  }, [])
-
-  const toggleAmenity = useCallback((amenity: string) => {
-    dispatch({ type: 'TOGGLE_AMENITY', payload: amenity })
-  }, [])
-
-  const setMinRating = useCallback((rating: number) => {
-    dispatch({ type: 'SET_MIN_RATING', payload: rating })
-  }, [])
-
-  const setDateRange = useCallback((checkIn: string, checkOut: string) => {
-    dispatch({ type: 'SET_DATE_RANGE', payload: { checkIn, checkOut } })
-  }, [])
-
-  const setSort = useCallback((field: SortConfig['field'], order: SortConfig['order']) => {
-    dispatch({ type: 'SET_SORT', payload: { field, order } })
-  }, [])
-
-  const setPage = useCallback((page: number) => {
-    dispatch({ type: 'SET_PAGE', payload: page })
-  }, [])
-
-  const resetFilters = useCallback(() => {
-    dispatch({ type: 'RESET_FILTERS' })
+  const {
+    setSearch,
+    setPriceRange,
+    toggleAmenity,
+    setMinRating,
+    setDateRange,
+    setSort,
+    setPage,
+    resetFilters,
+  } = useMemo(() => {
+    return {
+      setSearch: (search: string) => {
+        dispatch({ type: 'SET_SEARCH', payload: search })
+      },
+      setPriceRange: (min: number, max: number) => {
+        dispatch({ type: 'SET_PRICE_RANGE', payload: { min, max } })
+      },
+      toggleAmenity: (amenity: string) => {
+        dispatch({ type: 'TOGGLE_AMENITY', payload: amenity })
+      },
+      setMinRating: (rating: number) => {
+        dispatch({ type: 'SET_MIN_RATING', payload: rating })
+      },
+      setDateRange: (checkIn: string, checkOut: string) => {
+        dispatch({ type: 'SET_DATE_RANGE', payload: { checkIn, checkOut } })
+      },
+      setSort: (field: SortConfig['field'], order: SortConfig['order']) => {
+        dispatch({ type: 'SET_SORT', payload: { field, order } })
+      },
+      setPage: (page: number) => {
+        dispatch({ type: 'SET_PAGE', payload: page })
+      },
+      resetFilters: () => {
+        dispatch({ type: 'RESET_FILTERS' })
+      },
+    }
   }, [])
 
   // Filtered & sorted results
@@ -211,7 +216,8 @@ export function useHotelFilters(hotels: Hotel[]) {
   const activeFiltersCount = useMemo(() => {
     let count = 0
     if (state.filters.search) count++
-    if (state.filters.priceMin > PRICE_RANGE.min || state.filters.priceMax < PRICE_RANGE.max) count++
+    if (state.filters.priceMin > PRICE_RANGE.min || state.filters.priceMax < PRICE_RANGE.max)
+      count++
     if (state.filters.amenities.length > 0) count++
     if (state.filters.minRating > 0) count++
     if (state.filters.checkIn && state.filters.checkOut) count++

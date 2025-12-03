@@ -1,11 +1,22 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Hotel } from '@/types/hotel'
 import { ALL_AMENITIES, PRICE_RANGE } from '@/data/hotels'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useHotelFilters } from '@/hooks/useHotelFilters'
-import { Button, Input, Select, Checkbox, RangeSlider, DatePicker, Badge, Rating, Popover } from '@/ui-kit'
+import {
+  Button,
+  Input,
+  Select,
+  Checkbox,
+  RangeSlider,
+  DatePicker,
+  Badge,
+  Rating,
+  Popover,
+} from '@/ui-kit'
+import { HotelCard } from '@/components/HotelCard'
 import {
   DashboardContainer,
   DashboardHeader,
@@ -22,14 +33,6 @@ import {
   ResultsCount,
   SortControls,
   HotelsGrid,
-  HotelCard,
-  HotelName,
-  HotelCity,
-  HotelDetails,
-  HotelPrice,
-  HotelAmenities,
-  AmenityTag,
-  HotelAvailability,
   Pagination,
   PageInfo,
   EmptyState,
@@ -53,7 +56,6 @@ const SORT_OPTIONS = [
 
 export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ initialHotels }) => {
   const [searchInput, setSearchInput] = useState('')
-  const [isSearching, setIsSearching] = useState(false)
   const debouncedSearch = useDebounce(searchInput, 300)
 
   const {
@@ -77,23 +79,69 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
   // Sync debounced search
   useEffect(() => {
     setSearch(debouncedSearch)
-    setIsSearching(false)
   }, [debouncedSearch, setSearch])
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const isSearching = searchInput !== debouncedSearch
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value)
-    setIsSearching(true)
-  }
+  }, [])
 
-  const handleSortChange = (value: string) => {
-    const [field, order] = value.split('-') as [typeof sort.field, typeof sort.order]
-    setSort(field, order)
-  }
+  const handleSortChange = useCallback(
+    (value: string) => {
+      const [field, order] = value.split('-') as [typeof sort.field, typeof sort.order]
+      setSort(field, order)
+    },
+    [setSort, sort]
+  )
 
-  const handleClearFilters = () => {
+  const handleClearFilters = useCallback(() => {
     setSearchInput('')
     resetFilters()
-  }
+  }, [resetFilters])
+
+  const handlePageChange = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const value = Number(e.currentTarget.value)
+      setPage(value)
+    },
+    [setPage]
+  )
+
+  const handleMinPriceChange = useCallback(
+    (min: number) => {
+      setPriceRange(min, filters.priceMax)
+    },
+    [setPriceRange, filters.priceMax]
+  )
+
+  const handleMaxPriceChange = useCallback(
+    (max: number) => {
+      setPriceRange(filters.priceMin, max)
+    },
+    [setPriceRange, filters.priceMin]
+  )
+
+  const handleCheckInChange = useCallback(
+    (value: string) => {
+      setDateRange(value, filters.checkOut)
+    },
+    [setDateRange, filters.checkOut]
+  )
+
+  const handleCheckOutChange = useCallback(
+    (value: string) => {
+      setDateRange(filters.checkIn, value)
+    },
+    [setDateRange, filters.checkIn]
+  )
+
+  const handleAmenityChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      toggleAmenity(e.target.value)
+    },
+    [toggleAmenity]
+  )
 
   return (
     <DashboardContainer>
@@ -140,8 +188,8 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
                 max={PRICE_RANGE.max}
                 minValue={filters.priceMin}
                 maxValue={filters.priceMax}
-                onMinChange={(min) => setPriceRange(min, filters.priceMax)}
-                onMaxChange={(max) => setPriceRange(filters.priceMin, max)}
+                onMinChange={handleMinPriceChange}
+                onMaxChange={handleMaxPriceChange}
               />
             </Popover>
           </FilterGroup>
@@ -170,13 +218,13 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
                 <DatePicker
                   label="Check-in"
                   value={filters.checkIn}
-                  onChange={(value) => setDateRange(value, filters.checkOut)}
+                  onChange={handleCheckInChange}
                   aria-label="Check-in date"
                 />
                 <DatePicker
                   label="Check-out"
                   value={filters.checkOut}
-                  onChange={(value) => setDateRange(filters.checkIn, value)}
+                  onChange={handleCheckOutChange}
                   aria-label="Check-out date"
                 />
               </div>
@@ -190,8 +238,9 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
                 <Checkbox
                   key={amenity}
                   label={amenity}
+                  value={amenity}
                   checked={filters.amenities.includes(amenity)}
-                  onChange={() => toggleAmenity(amenity)}
+                  onChange={handleAmenityChange}
                 />
               ))}
             </AmenitiesGroup>
@@ -218,14 +267,14 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
         <LoadingOverlay>
           <HotelsGrid>
             {paginatedHotels.map((hotel) => (
-              <HotelCardComponent key={hotel.id} hotel={hotel} />
+              <HotelCard key={hotel.id} hotel={hotel} />
             ))}
           </HotelsGrid>
         </LoadingOverlay>
       ) : paginatedHotels.length > 0 ? (
         <HotelsGrid>
           {paginatedHotels.map((hotel) => (
-            <HotelCardComponent key={hotel.id} hotel={hotel} />
+            <HotelCard key={hotel.id} hotel={hotel} />
           ))}
         </HotelsGrid>
       ) : (
@@ -240,7 +289,8 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => setPage(page - 1)}
+            value={page - 1}
+            onClick={handlePageChange}
             disabled={page === 1}
             aria-label="Previous page"
           >
@@ -252,7 +302,8 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => setPage(page + 1)}
+            value={page + 1}
+            onClick={handlePageChange}
             disabled={page === totalPages}
             aria-label="Next page"
           >
@@ -263,25 +314,3 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
     </DashboardContainer>
   )
 }
-
-// Memoized hotel card component
-const HotelCardComponent = React.memo(function HotelCardComponent({ hotel }: { hotel: Hotel }) {
-  return (
-    <HotelCard>
-      <HotelName>{hotel.name}</HotelName>
-      <HotelCity>{hotel.city}</HotelCity>
-      <HotelDetails>
-        <HotelPrice>{hotel.price}</HotelPrice>
-        <Rating value={hotel.rating} showValue />
-      </HotelDetails>
-      <HotelAmenities>
-        {hotel.amenities.map((amenity) => (
-          <AmenityTag key={amenity}>{amenity}</AmenityTag>
-        ))}
-      </HotelAmenities>
-      <HotelAvailability>
-        Available: {hotel.availability.checkIn} — {hotel.availability.checkOut}
-      </HotelAvailability>
-    </HotelCard>
-  )
-})

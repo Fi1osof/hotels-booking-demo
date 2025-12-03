@@ -1,5 +1,12 @@
-import React from 'react'
-import { RangeWrapper, RangeLabel, RangeInputs, RangeInput, RangeValues, RangeValue } from './styles'
+import React, { useCallback } from 'react'
+import {
+  RangeWrapper,
+  RangeLabel,
+  RangeInputs,
+  RangeInput,
+  RangeValues,
+  RangeValue,
+} from './styles'
 
 export interface RangeSliderProps {
   label?: string
@@ -12,6 +19,10 @@ export interface RangeSliderProps {
   formatValue?: (value: number) => string
 }
 
+function defaultFormatValue(v: number): string {
+  return `$${v}`
+}
+
 export const RangeSlider: React.FC<RangeSliderProps> = ({
   label,
   min,
@@ -20,8 +31,22 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
   maxValue,
   onMinChange,
   onMaxChange,
-  formatValue = (v) => `$${v}`,
+  formatValue = defaultFormatValue,
 }) => {
+  const handleMinChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onMinChange(Math.min(Number(e.target.value), maxValue - 1))
+    },
+    [onMinChange, maxValue]
+  )
+
+  const handleMaxChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onMaxChange(Math.max(Number(e.target.value), minValue + 1))
+    },
+    [onMaxChange, minValue]
+  )
+
   return (
     <RangeWrapper>
       {label && <RangeLabel>{label}</RangeLabel>}
@@ -31,7 +56,7 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
           min={min}
           max={max}
           value={minValue}
-          onChange={(e) => onMinChange(Math.min(Number(e.target.value), maxValue - 1))}
+          onChange={handleMinChange}
           aria-label="Minimum value"
         />
         <RangeInput
@@ -39,7 +64,7 @@ export const RangeSlider: React.FC<RangeSliderProps> = ({
           min={min}
           max={max}
           value={maxValue}
-          onChange={(e) => onMaxChange(Math.max(Number(e.target.value), minValue + 1))}
+          onChange={handleMaxChange}
           aria-label="Maximum value"
         />
       </RangeInputs>

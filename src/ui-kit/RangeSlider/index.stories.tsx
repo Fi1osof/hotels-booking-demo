@@ -10,7 +10,7 @@ const meta: Meta<typeof RangeSlider> = {
 export default meta
 type Story = StoryObj<typeof RangeSlider>
 
-const RangeSliderDemo = () => {
+function RangeSliderDemo() {
   const [minValue, setMinValue] = useState(50)
   const [maxValue, setMaxValue] = useState(200)
 

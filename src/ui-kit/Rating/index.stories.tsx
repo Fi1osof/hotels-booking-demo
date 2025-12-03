@@ -24,7 +24,7 @@ export const WithLabel: Story = {
   },
 }
 
-const InteractiveDemo = () => {
+function InteractiveDemo() {
   const [rating, setRating] = useState(3)
 
   return (

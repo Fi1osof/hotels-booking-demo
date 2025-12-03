@@ -33,9 +33,13 @@ export const Popover: React.FC<PopoverProps> = ({ trigger, children }) => {
     }
   }, [isOpen, handleClickOutside, handleEscape])
 
+  const handleToggle = useCallback(() => {
+    setIsOpen((prev) => !prev)
+  }, [])
+
   return (
     <PopoverWrapper ref={wrapperRef}>
-      <PopoverTrigger type="button" onClick={() => setIsOpen(!isOpen)} aria-expanded={isOpen}>
+      <PopoverTrigger type="button" onClick={handleToggle} aria-expanded={isOpen}>
         {trigger}
       </PopoverTrigger>
       <PopoverContent $isOpen={isOpen}>

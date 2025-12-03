@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { RatingWrapper, RatingLabel, RatingStars, Star, RatingValue } from './styles'
 
 export interface RatingProps {
@@ -18,11 +18,19 @@ export const Rating: React.FC<RatingProps> = ({
   interactive = false,
   onChange,
 }) => {
-  const handleClick = (starValue: number) => {
-    if (interactive && onChange) {
-      onChange(starValue)
-    }
-  }
+  const handleClick = useCallback(
+    (starValue: number) => {
+      if (interactive && onChange) {
+        onChange(starValue)
+      }
+    },
+    [interactive, onChange]
+  )
+
+  const createClickHandler = useCallback(
+    (starValue: number) => () => handleClick(starValue),
+    [handleClick]
+  )
 
   return (
     <RatingWrapper>
@@ -33,7 +41,7 @@ export const Rating: React.FC<RatingProps> = ({
             key={i}
             $filled={i < Math.round(value)}
             $interactive={interactive}
-            onClick={() => handleClick(i + 1)}
+            onClick={createClickHandler(i + 1)}
             aria-label={`${i + 1} star${i === 0 ? '' : 's'}`}
             type="button"
             tabIndex={interactive ? 0 : -1}

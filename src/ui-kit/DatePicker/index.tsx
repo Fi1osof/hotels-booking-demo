@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { DatePickerWrapper, DatePickerLabel, DatePickerInput } from './styles'
 
-export interface DatePickerProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
+export interface DatePickerProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'type' | 'onChange'
+> {
   label?: string
   onChange?: (value: string) => void
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({ label, id, onChange, ...props }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value)
-  }
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(e.target.value)
+    },
+    [onChange]
+  )
 
   return (
     <DatePickerWrapper>

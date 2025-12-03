@@ -13,10 +13,11 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   fullWidth = false,
   children,
+  type = 'button',
   ...props
 }) => {
   return (
-    <ButtonStyled $variant={variant} $size={size} $fullWidth={fullWidth} {...props}>
+    <ButtonStyled type={type} $variant={variant} $size={size} $fullWidth={fullWidth} {...props}>
       {children}
     </ButtonStyled>
   )
