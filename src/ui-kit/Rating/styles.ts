@@ -3,13 +3,13 @@ import styled from 'styled-components'
 export const RatingWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `
 
 export const RatingLabel = styled.label`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: 500;
-  color: #334155;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 export const RatingStars = styled.div`
@@ -27,24 +27,24 @@ export const Star = styled.button<StarProps>`
   background: none;
   border: none;
   padding: 0;
-  font-size: 20px;
-  color: ${({ $filled }) => ($filled ? '#fbbf24' : '#e2e8f0')};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  color: ${({ $filled, theme }) => ($filled ? theme.colors.star : theme.colors.starEmpty)};
   cursor: ${({ $interactive }) => ($interactive ? 'pointer' : 'default')};
-  transition: color 0.15s ease;
+  transition: color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    color: ${({ $interactive }) => ($interactive ? '#fbbf24' : undefined)};
+    color: ${({ $interactive, theme }) => ($interactive ? theme.colors.star : undefined)};
   }
 
   &:focus-visible {
-    outline: 2px solid #2563eb;
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
     outline-offset: 2px;
   }
 `
 
 export const RatingValue = styled.span`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: 500;
-  color: #1e293b;
-  margin-left: 8px;
+  color: ${({ theme }) => theme.colors.text};
+  margin-left: ${({ theme }) => theme.spacing.sm};
 `

@@ -3,38 +3,38 @@ import styled from 'styled-components'
 export const SelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `
 
 export const SelectLabel = styled.label`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: 500;
-  color: #334155;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 export const SelectStyled = styled.select`
-  padding: 8px 32px 8px 12px;
-  font-size: 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23334155' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 12px center;
-  color: #1e293b;
+  padding: ${({ theme }) => theme.spacing.sm} 32px ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.background} url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23334155' d='M2 4l4 4 4-4'/%3E%3C/svg%3E") no-repeat right ${({ theme }) => theme.spacing.md} center;
+  color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
   appearance: none;
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transitions.normal};
 
   &:hover:not(:disabled) {
-    border-color: #cbd5e1;
+    border-color: ${({ theme }) => theme.colors.borderHover};
   }
 
   &:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 
   &:disabled {
-    background-color: #f8fafc;
+    background-color: ${({ theme }) => theme.colors.backgroundMuted};
     cursor: not-allowed;
   }
 `

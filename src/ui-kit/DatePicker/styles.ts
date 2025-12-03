@@ -3,37 +3,37 @@ import styled from 'styled-components'
 export const DatePickerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${({ theme }) => theme.spacing.xs};
 `
 
 export const DatePickerLabel = styled.label`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: 500;
-  color: #334155;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 export const DatePickerInput = styled.input`
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: #fff;
-  color: #1e293b;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transitions.normal};
 
   &:hover:not(:disabled) {
-    border-color: #cbd5e1;
+    border-color: ${({ theme }) => theme.colors.borderHover};
   }
 
   &:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: ${({ theme }) => theme.shadows.focus};
   }
 
   &:disabled {
-    background: #f8fafc;
+    background: ${({ theme }) => theme.colors.backgroundMuted};
     cursor: not-allowed;
   }
 `

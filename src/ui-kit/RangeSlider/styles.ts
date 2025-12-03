@@ -3,26 +3,26 @@ import styled from 'styled-components'
 export const RangeWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing.sm};
 `
 
 export const RangeLabel = styled.label`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   font-weight: 500;
-  color: #334155;
+  color: ${({ theme }) => theme.colors.text};
 `
 
 export const RangeInputs = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing.md};
 `
 
 export const RangeInput = styled.input`
   flex: 1;
   height: 6px;
   border-radius: 3px;
-  background: #e2e8f0;
+  background: ${({ theme }) => theme.colors.border};
   appearance: none;
   cursor: pointer;
 
@@ -31,9 +31,9 @@ export const RangeInput = styled.input`
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #2563eb;
+    background: ${({ theme }) => theme.colors.primary};
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform ${({ theme }) => theme.transitions.normal};
 
     &:hover {
       transform: scale(1.1);
@@ -45,12 +45,12 @@ export const RangeInput = styled.input`
     height: 18px;
     border: none;
     border-radius: 50%;
-    background: #2563eb;
+    background: ${({ theme }) => theme.colors.primary};
     cursor: pointer;
   }
 
   &:focus-visible {
-    outline: 2px solid #2563eb;
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
     outline-offset: 2px;
   }
 `
@@ -58,11 +58,11 @@ export const RangeInput = styled.input`
 export const RangeValues = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
-  color: #64748b;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: ${({ theme }) => theme.colors.textMuted};
 `
 
 export const RangeValue = styled.span`
   font-weight: 500;
-  color: #1e293b;
+  color: ${({ theme }) => theme.colors.text};
 `

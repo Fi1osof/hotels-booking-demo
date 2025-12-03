@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 export type BadgeVariant = 'default' | 'primary' | 'success' | 'warning'
 
@@ -6,32 +6,32 @@ interface BadgeStyledProps {
   $variant: BadgeVariant
 }
 
-const variantStyles = {
+const variantStyles = (theme: DefaultTheme) => ({
   default: css`
-    background: #f1f5f9;
-    color: #475569;
+    background: ${theme.colors.secondary};
+    color: ${theme.colors.textMuted};
   `,
   primary: css`
     background: #dbeafe;
-    color: #1d4ed8;
+    color: ${theme.colors.primaryHover};
   `,
   success: css`
-    background: #dcfce7;
-    color: #16a34a;
+    background: ${theme.colors.successBg};
+    color: ${theme.colors.success};
   `,
   warning: css`
-    background: #fef3c7;
-    color: #d97706;
+    background: ${theme.colors.warningBg};
+    color: ${theme.colors.warning};
   `,
-}
+})
 
 export const BadgeStyled = styled.span<BadgeStyledProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 8px;
-  font-size: 12px;
+  padding: 2px ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 500;
-  border-radius: 9999px;
-  ${({ $variant }) => variantStyles[$variant]}
+  border-radius: ${({ theme }) => theme.radii.full};
+  ${({ $variant, theme }) => variantStyles(theme)[$variant]}
 `

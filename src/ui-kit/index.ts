@@ -21,3 +21,6 @@ export type { BadgeProps } from './Badge'
 
 export { Rating } from './Rating'
 export type { RatingProps } from './Rating'
+
+export { Popover } from './Popover'
+export type { PopoverProps } from './Popover'
