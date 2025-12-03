@@ -5,18 +5,6 @@ import { Hotel } from '@/types/hotel'
 import { ALL_AMENITIES, PRICE_RANGE } from '@/data/hotels'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useHotelFilters } from '@/hooks/useHotelFilters'
-import {
-  Button,
-  Input,
-  Select,
-  Checkbox,
-  RangeSlider,
-  DatePicker,
-  Badge,
-  Rating,
-  Popover,
-  Modal,
-} from '@/ui-kit'
 import { HotelCard } from '@/components/HotelCard'
 import { Statistics } from '@/components/Statistics'
 import {
@@ -43,6 +31,16 @@ import {
   EmptyStateText,
   LoadingOverlay,
 } from './styles'
+import { Button } from '@/ui-kit/Button'
+import { Modal } from '@/ui-kit/Modal'
+import { Badge } from '@/ui-kit/Badge'
+import { Input } from '@/ui-kit/Input'
+import { Popover } from '@/ui-kit/Popover'
+import { RangeSlider } from '@/ui-kit/RangeSlider'
+import { Rating } from '@/ui-kit/Rating'
+import { DatePicker } from '@/ui-kit/DatePicker'
+import { Checkbox } from '@/ui-kit/Checkbox'
+import { Select } from '@/ui-kit/Select'
 
 interface HotelBookingDashboardProps {
   initialHotels: Hotel[]

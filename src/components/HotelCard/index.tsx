@@ -1,6 +1,6 @@
 import React from 'react'
 import { Hotel } from '@/types/hotel'
-import { Rating } from '@/ui-kit'
+import { Rating } from '@/ui-kit/Rating'
 import {
   HotelCardStyled,
   HotelName,
