@@ -15,11 +15,14 @@ import {
   Badge,
   Rating,
   Popover,
+  Modal,
 } from '@/ui-kit'
 import { HotelCard } from '@/components/HotelCard'
+import { Statistics } from '@/components/Statistics'
 import {
   DashboardContainer,
   DashboardHeader,
+  HeaderTop,
   DashboardTitle,
   DashboardSubtitle,
   FiltersSection,
@@ -56,6 +59,7 @@ const SORT_OPTIONS = [
 
 export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ initialHotels }) => {
   const [searchInput, setSearchInput] = useState('')
+  const [isStatsOpen, setIsStatsOpen] = useState(false)
   const debouncedSearch = useDebounce(searchInput, 300)
 
   const {
@@ -143,12 +147,31 @@ export const HotelBookingDashboard: React.FC<HotelBookingDashboardProps> = ({ in
     [toggleAmenity]
   )
 
+  const handleOpenStats = useCallback(() => {
+    setIsStatsOpen(true)
+  }, [])
+
+  const handleCloseStats = useCallback(() => {
+    setIsStatsOpen(false)
+  }, [])
+
   return (
     <DashboardContainer>
       <DashboardHeader>
-        <DashboardTitle>Hotel Booking Dashboard</DashboardTitle>
-        <DashboardSubtitle>Find your perfect stay</DashboardSubtitle>
+        <HeaderTop>
+          <div>
+            <DashboardTitle>Hotel Booking Dashboard</DashboardTitle>
+            <DashboardSubtitle>Find your perfect stay</DashboardSubtitle>
+          </div>
+          <Button variant="secondary" onClick={handleOpenStats}>
+            📊 Statistics
+          </Button>
+        </HeaderTop>
       </DashboardHeader>
+
+      <Modal isOpen={isStatsOpen} onClose={handleCloseStats} title="Hotel Statistics">
+        <Statistics hotels={initialHotels} />
+      </Modal>
 
       <FiltersSection>
         <FiltersHeader>

@@ -10,6 +10,12 @@ export const DashboardHeader = styled.header`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
 `
 
+export const HeaderTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`
+
 export const DashboardTitle = styled.h1`
   font-size: 28px;
   font-weight: 700;

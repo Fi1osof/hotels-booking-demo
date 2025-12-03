@@ -24,3 +24,5 @@ export type { RatingProps } from './Rating'
 
 export { Popover } from './Popover'
 export type { PopoverProps } from './Popover'
+
+export { Modal } from './Modal'
