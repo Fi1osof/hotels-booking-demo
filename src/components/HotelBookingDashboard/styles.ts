@@ -96,10 +96,33 @@ export const SortControls = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
 `
 
+export const HotelsContainer = styled.div<{ $loading?: boolean }>`
+  opacity: ${({ $loading }) => ($loading ? 0.6 : 1)};
+  pointer-events: ${({ $loading }) => ($loading ? 'none' : 'auto')};
+  transition: opacity ${({ theme }) => theme.transitions.fast};
+`
+
 export const HotelsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
+`
+
+export const NoResults = styled.div`
+  text-align: center;
+  padding: 48px ${({ theme }) => theme.spacing.xl};
+  color: ${({ theme }) => theme.colors.textMuted};
+
+  h3 {
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text};
+    margin: 0 0 ${({ theme }) => theme.spacing.sm} 0;
+  }
+
+  p {
+    margin: 0;
+  }
 `
 
 export const Pagination = styled.div`
@@ -114,27 +137,4 @@ export const PageInfo = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.textMuted};
   margin: 0 ${({ theme }) => theme.spacing.md};
-`
-
-export const EmptyState = styled.div`
-  text-align: center;
-  padding: 48px ${({ theme }) => theme.spacing.xl};
-  color: ${({ theme }) => theme.colors.textMuted};
-`
-
-export const EmptyStateTitle = styled.h3`
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.text};
-  margin: 0 0 ${({ theme }) => theme.spacing.sm} 0;
-`
-
-export const EmptyStateText = styled.p`
-  margin: 0;
-`
-
-export const LoadingOverlay = styled.div`
-  position: relative;
-  opacity: 0.6;
-  pointer-events: none;
 `

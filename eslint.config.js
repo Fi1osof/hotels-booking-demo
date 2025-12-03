@@ -20,6 +20,7 @@ export default [
         },
       },
       globals: {
+        console: 'readonly',
         document: 'readonly',
         window: 'readonly',
         setTimeout: 'readonly',
@@ -60,6 +61,12 @@ export default [
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'react/jsx-no-bind': 'error',
+      'no-console': [
+        2,
+        {
+          allow: ['warn', 'error'],
+        },
+      ],
     },
   },
   {
