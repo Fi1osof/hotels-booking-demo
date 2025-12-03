@@ -27,15 +27,7 @@ export const WithLabel: Story = {
 function InteractiveDemo() {
   const [rating, setRating] = useState(3)
 
-  return (
-    <Rating
-      label="Minimum Rating"
-      value={rating}
-      interactive
-      onChange={setRating}
-      showValue
-    />
-  )
+  return <Rating label="Minimum Rating" value={rating} interactive onChange={setRating} showValue />
 }
 
 export const Interactive: Story = {
